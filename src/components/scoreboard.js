@@ -1,4 +1,14 @@
+import React, { useState, useEffect } from 'react';
+
 const ScoreBoard = (props) => {
+    const [hScore, setHScore] = useState(0)
+
+    useEffect(() => {
+        if (props.score > hScore) {
+            setHScore(props.score)
+        }
+    }, [props.score, hScore])
+
     return (
         <div>
             <div>
@@ -7,7 +17,7 @@ const ScoreBoard = (props) => {
             </div>
             <div>
                 <p>High Score:</p>
-                <p>{props.highScore}</p>
+                <p>{hScore}</p>
             </div>
         </div>
     )
