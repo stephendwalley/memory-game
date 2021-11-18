@@ -18,18 +18,10 @@ const Game = () => {
         { number: "9" },
         { number: "10" },
     ])
-    
+
     const shuffleCards = (newCards) => {
         newCards = newCards.sort(() => Math.random() - 0.5)
     }
-
-    useEffect(() => {
-        // shuffles on component mount
-        const newCards = [...cards];
-        shuffleCards(newCards);
-        setCards(newCards);
-        console.log(cards)
-    }, []);
 
     const addItem = (item) => {
         setItems(items => [...items, item])
@@ -37,16 +29,37 @@ const Game = () => {
         const newCards = [...cards];
         shuffleCards(newCards);
         setCards(newCards);
-
-        console.log(items)
     }
+
+    const resetGame = () => {
+        setItems([]);
+    }
+
+    const checkItem = (item) => {
+        if (items.includes(item)) {
+            // includes a double
+            resetGame()
+        } else {
+            // doesn't include a double
+            addItem(item)
+        }
+
+    }
+
+    useEffect(() => {
+        // shuffles on component mount
+        const newCards = [...cards];
+        shuffleCards(newCards);
+        setCards(newCards);
+    }, []);
+
 
     return (
         <div>
             <h1>Memory Game</h1>
             <ScoreBoard score={items.length} />
             {cards.map((card, idx) => (
-                <Cards number={card.number} addItem={addItem} key={idx} />
+                <Cards number={card.number} checkItem={checkItem} key={idx} />
             ))}
         </div>
     );
